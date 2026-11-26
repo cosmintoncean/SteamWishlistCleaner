@@ -1,0 +1,14 @@
+{
+  "name": "Wishlist Cleaner",
+  "author": "ComaApps",
+  "flags": [],
+  "api_version": 1,
+  "publish": {
+    "tags": [
+      "wishlist",
+      "family"
+    ],
+    "description": "Remove wishlist games you can already play through Steam Family, Game Pass or PS Plus.",
+    "image": ""
+  }
+}

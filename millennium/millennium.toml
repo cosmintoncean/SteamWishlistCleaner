@@ -1,0 +1,18 @@
+[plugin]
+id = "comaapps.wishlist-cleaner"
+name = "Wishlist Cleaner"
+version = "0.2.0"
+author = "ComaApps"
+
+[backend]
+entry = "backend/main.lua"
+sources = ["backend/**/*.lua"]
+
+[frontend]
+entry = "frontend/index.tsx"
+
+[webkit]
+entry = "webview/preload.ts"
+
+[compiler]
+output_path = "auto"

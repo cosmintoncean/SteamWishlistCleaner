@@ -1,0 +1,18 @@
+{
+  "name": "wishlist-cleaner",
+  "private": true,
+  "scripts": {
+    "build": "starlight pack",
+    "dev": "starlight watch",
+    "prepare": "starlight lsp"
+  },
+  "devDependencies": {
+    "@steambrew/starlight": "^1.1.7",
+    "@types/react": "^19.1.1",
+    "@types/react-dom": "^19.1.1",
+    "bun": "^1.4.5"
+  },
+  "version": "0.2.0",
+  "author": "ComaApps",
+  "license": "BSD-3-Clause"
+}
