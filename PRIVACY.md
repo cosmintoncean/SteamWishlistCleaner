@@ -2,7 +2,7 @@
 
 Last updated: 26 November 2026
 
-Wishlist Cleaner runs on your own device. Its authors run no server, collect nothing and
+Steam Wishlist Cleaner runs on your own device. Its authors run no server, collect nothing and
 receive none of your data. It has no analytics or advertising.
 
 ## What it reads
@@ -29,6 +29,14 @@ Only on your device: your **Check against** choices, your country code, and the 
 games from your latest removal. The access token is not saved or logged. Uninstalling the
 browser extension deletes its stored data. The Millennium and Decky versions keep it in
 Steam's local web storage.
+
+## Your choices
+
+- Nothing is read until you click **Scan wishlist**, and nothing is removed until you confirm.
+- You choose which catalogs are checked. Unticked ones are not contacted.
+- To stop all access, disable or uninstall Steam Wishlist Cleaner, or sign out of Steam.
+- Your wishlist and family library stay in your Steam account, where you can view and change
+  them. The authors hold no copy, so there is nothing for us to access, correct or delete.
 
 ## Links
 

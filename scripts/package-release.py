@@ -40,16 +40,16 @@ extra = [root / "LICENSE", root / "THIRD_PARTY_NOTICES.md", root / "PRIVACY.md"]
 decky = root / "decky"
 packages = {
     # Browser stores expect manifest.json at the top of the zip.
-    f"wishlist-cleaner-browser-{version}.zip": [
+    f"steam-wishlist-cleaner-browser-{version}.zip": [
         (path, path.relative_to(browser).as_posix())
         for path in sorted(browser.rglob("*"))
         if path.is_file()
     ],
-    f"wishlist-cleaner-decky-{version}.zip": [
-        (decky / name, f"wishlist-cleaner/{name}")
+    f"steam-wishlist-cleaner-decky-{version}.zip": [
+        (decky / name, f"steam-wishlist-cleaner/{name}")
         for name in ("plugin.json", "package.json", "main.py", "dist/index.js")
     ]
-    + [(path, f"wishlist-cleaner/{path.name}") for path in [*extra, root / "README.md"]],
+    + [(path, f"steam-wishlist-cleaner/{path.name}") for path in [*extra, root / "README.md"]],
 }
 
 release = root / "dist" / "release"
@@ -64,7 +64,7 @@ for name, files in packages.items():
 # Millennium: compile into a temporary folder, so the local Steam install isn't touched.
 millennium = root / "millennium"
 compiler = millennium / "node_modules" / "@steambrew" / "starlight" / "bin" / "starlight.js"
-millennium_name = f"wishlist-cleaner-millennium-{version}.star"
+millennium_name = f"steam-wishlist-cleaner-millennium-{version}.star"
 with tempfile.TemporaryDirectory() as folder:
     subprocess.run(
         [shutil.which("node"), str(compiler), "--release", "--of", folder, "pack"],

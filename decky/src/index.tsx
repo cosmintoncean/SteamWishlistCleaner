@@ -288,8 +288,8 @@ function Content() {
 }
 
 export default definePlugin(() => ({
-  name: "Wishlist Cleaner",
-  titleView: <div className={staticClasses.Title}>Wishlist Cleaner</div>,
+  name: "Steam Wishlist Cleaner",
+  titleView: <div className={staticClasses.Title}>Steam Wishlist Cleaner</div>,
   content: <Content />,
   icon: <FaBroom />,
 }));

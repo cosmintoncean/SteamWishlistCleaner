@@ -77,7 +77,7 @@ export function mountPanel(host: PanelHost): void {
     el("div", { className: "sfwc-actions" }, scanButton, removeButton, undoButton),
     credits,
   );
-  const toggle = el("button", { textContent: "Wishlist Cleaner" });
+  const toggle = el("button", { textContent: "Steam Wishlist Cleaner" });
   toggle.addEventListener("click", () => (body.hidden = !body.hidden));
   document.head.append(el("style", { textContent: PANEL_CSS }));
   document.body.append(el("div", { id: "sfwc-panel" }, toggle, body));

@@ -54,7 +54,7 @@ page = f"""<!doctype html>
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Wishlist Cleaner privacy policy</title>
+<title>Steam Wishlist Cleaner privacy policy</title>
 <style>{STYLE}</style>
 </head>
 <body>

@@ -1,5 +1,5 @@
 {
-  "name": "wishlist-cleaner",
+  "name": "steam-wishlist-cleaner",
   "private": true,
   "scripts": {
     "build": "starlight pack",

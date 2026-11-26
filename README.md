@@ -1,4 +1,4 @@
-# Wishlist Cleaner
+# Steam Wishlist Cleaner
 
 Developed by [ComaApps](https://comaapps.dev/) · [Support on Ko-fi](https://ko-fi.com/comaapps)
 
@@ -20,10 +20,10 @@ It comes in three versions:
 
 This repository is private. Release zips are shared by
 [ComaApps](https://comaapps.dev/). For the browser, unzip
-`wishlist-cleaner-browser-<version>.zip` into a folder you'll keep, then load that folder as
+`steam-wishlist-cleaner-browser-<version>.zip` into a folder you'll keep, then load that folder as
 described under [Browser](#browser). For Steam Deck, use
-`wishlist-cleaner-decky-<version>.zip`. The release also includes the Millennium
-package, `wishlist-cleaner-millennium-<version>.star`; building it from source is described
+`steam-wishlist-cleaner-decky-<version>.zip`. The release also includes the Millennium
+package, `steam-wishlist-cleaner-millennium-<version>.star`; building it from source is described
 under [Millennium](#millennium).
 
 ## Build
@@ -57,7 +57,7 @@ npm run build:decky
 
 1. Install [Millennium](https://steambrew.app) 3.4 or newer.
 2. Run `npm run build:millennium`. The compiler detects Millennium and installs the plugin.
-3. Enable **Wishlist Cleaner** in Millennium's settings.
+3. Enable **Steam Wishlist Cleaner** in Millennium's settings.
 
 ### Decky Loader
 

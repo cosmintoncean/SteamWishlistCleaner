@@ -4,13 +4,13 @@ function SettingsContent() {
 	return (
 		<Field
 			label="How to use"
-			description="Open your wishlist in the Store tab, then click Wishlist Cleaner at the bottom right."
+			description="Open your wishlist in the Store tab, then click Steam Wishlist Cleaner at the bottom right."
 		/>
 	);
 }
 
 export default definePlugin(() => ({
-	title: 'Wishlist Cleaner',
+	title: 'Steam Wishlist Cleaner',
 	icon: <IconsModule.Settings />,
 	content: <SettingsContent />,
 }));

@@ -101,7 +101,7 @@ class Plugin:
             return False
 
     async def _main(self):
-        decky.logger.info("Wishlist Cleaner loaded")
+        decky.logger.info("Steam Wishlist Cleaner loaded")
 
     async def _unload(self):
-        decky.logger.info("Wishlist Cleaner unloaded")
+        decky.logger.info("Steam Wishlist Cleaner unloaded")

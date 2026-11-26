@@ -1,6 +1,6 @@
 [plugin]
-id = "comaapps.wishlist-cleaner"
-name = "Wishlist Cleaner"
+id = "comaapps.steam-wishlist-cleaner"
+name = "Steam Wishlist Cleaner"
 version = "1.0.0"
 author = "ComaApps"
 
