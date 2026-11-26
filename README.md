@@ -1,90 +1,106 @@
-# Steam Wishlist Cleaner
+<p align="center">
+  <img src="browser/icons/icon-128.png" width="96" height="96" alt="">
+</p>
 
-Developed by [ComaApps](https://comaapps.dev/) · [Support on Ko-fi](https://ko-fi.com/comaapps)
+<h1 align="center">Steam Wishlist Cleaner</h1>
 
-Removes games from your Steam wishlist that you can already play through your Steam Family,
-Game Pass or PS Plus.
+<p align="center">
+  Remove games from your Steam wishlist that you can already play.<br>
+  Developed by <a href="https://comaapps.dev/">ComaApps</a> ·
+  <a href="https://ko-fi.com/comaapps">Support on Ko-fi</a>
+</p>
 
-Not affiliated with, or endorsed by, Valve, Microsoft or Sony. It relies on undocumented
-endpoints that can change at any time. Use it at your own risk.
+![The Wishlist Cleaner panel listing matched games, each with the reason it matched](docs/store-screenshots/2-review.png)
 
-It comes in three versions:
+<p align="center"><sub>The real panel with made-up sample games.</sub></p>
 
-| Version | Where it works | Where the button is |
-|---|---|---|
-| Browser extension | Edge (tested); Chrome and Brave expected to work | Wishlist page, bottom right |
-| Millennium plugin (tested) | Steam desktop client | Wishlist page in the Store tab, bottom right |
-| Decky Loader plugin (experimental, untested) | Steam Deck, Gaming Mode | Quick Access menu, Decky tab |
+## What it does
 
-## Download
+It checks your wishlist against:
 
-This repository is private. Release zips are shared by
-[ComaApps](https://comaapps.dev/). For the browser, unzip
-`steam-wishlist-cleaner-browser-<version>.zip` into a folder you'll keep, then load that folder as
-described under [Browser](#browser). For Steam Deck, use
-`steam-wishlist-cleaner-decky-<version>.zip`. The release also includes the Millennium
-package, `steam-wishlist-cleaner-millennium-<version>.star`; building it from source is described
-under [Millennium](#millennium).
+- games shared by your **Steam Family**
+- **PC Game Pass** and **Console Game Pass**
+- the **PS Plus** Game Catalog and Classics
 
-## Build
+Scanning changes nothing. You see why each game matched, untick what you want to keep,
+confirm, and can undo your latest removal.
 
-Needs Node.js and Python.
+> Not affiliated with or endorsed by Valve, Microsoft or Sony. It relies on undocumented
+> services that can change at any time. Use it at your own risk.
 
-```powershell
-npm install
-```
+## Download and install
 
-```powershell
-npm install --prefix millennium
-```
+Get the files from the
+[latest release](https://github.com/cosmintoncean/SteamWishlistCleaner/releases/latest).
 
-```powershell
-npm run build:browser
-```
+| Version | Works in | Status | File |
+|---|---|---|---|
+| [Browser extension](#browser-extension) | Microsoft Edge; Chrome and Brave should work | Tested in Edge | `steam-wishlist-cleaner-browser-<version>.zip` |
+| [Millennium plugin](#millennium-plugin) | Steam desktop client | Tested when built from source | `steam-wishlist-cleaner-millennium-<version>.star` |
+| [Decky Loader plugin](#decky-loader-plugin) | Steam Deck, Gaming Mode | **Experimental: never run on a Deck** | `steam-wishlist-cleaner-decky-<version>.zip` |
 
-```powershell
-npm run build:decky
-```
+The plugins are not in the Millennium or Decky stores and have not been reviewed by either
+project. Install them only if you're comfortable running software from outside those stores.
 
-## Install
+### Browser extension
 
-### Browser
+1. Download `steam-wishlist-cleaner-browser-<version>.zip` from the latest release.
+2. Extract it into a folder you'll keep. The browser loads the extension from there, so
+   don't delete or move it.
+3. Open `edge://extensions` (or `chrome://extensions`).
+4. Turn on **Developer mode**.
+5. Click **Load unpacked** and choose the extracted folder (the one containing
+   `manifest.json`).
 
-1. Open `chrome://extensions` (or `edge://extensions`) and turn on **Developer mode**.
-2. Click **Load unpacked** and choose `dist/browser` (or your unzipped download).
+**Update:** replace the folder's contents with the new version, then click the reload icon on
+the extension's card.
 
-### Millennium
+### Millennium plugin
 
 1. Install [Millennium](https://steambrew.app) 3.4 or newer.
-2. Run `npm run build:millennium`. The compiler detects Millennium and installs the plugin.
-3. Enable **Steam Wishlist Cleaner** in Millennium's settings.
+2. Download `steam-wishlist-cleaner-millennium-<version>.star` from the latest release.
+3. Quit Steam completely.
+4. Copy the file into Millennium's plugin folder. On Windows this is normally
+   `C:\Program Files (x86)\Steam\millennium\plugins`.
+5. Start Steam, open Millennium's settings, and enable **Steam Wishlist Cleaner** under
+   plugins.
 
-### Decky Loader
+Installing the downloaded file by hand has not been tested, and the package is unsigned. The
+plugin has been tested when installed by [building from source](#build-from-source), so use
+that if the file doesn't appear in Millennium.
 
-1. Download the Decky zip, or run `npm run release` to create it in `dist/release`.
-2. Copy the zip to your Steam Deck.
-3. In Decky's settings, turn on developer mode and install the plugin from the zip file.
+**Update or remove:** quit Steam, then replace or delete the file.
+
+### Decky Loader plugin
+
+1. Install [Decky Loader](https://decky.xyz) on your Steam Deck.
+2. In Desktop Mode, download `steam-wishlist-cleaner-decky-<version>.zip` from the latest
+   release. Don't extract it.
+3. Back in Gaming Mode, open the Quick Access menu (**…** button), choose the Decky tab and
+   open its settings (gear icon).
+4. Turn on **Developer mode**, then in the **Developer** section choose to install a plugin
+   from a ZIP file and select the download. You can instead use **install from URL** with
+   the file's download link. Menu names can differ between Decky versions.
 
 ## Use
 
-1. Sign in to the Steam store. On a Steam Deck, open the Store so a store page is loaded.
+1. Sign in to the Steam store and open your wishlist, then click **Wishlist Cleaner** at the
+   bottom right. On a Steam Deck, open the Store once, then open the plugin from the Quick
+   Access menu.
 2. Under **Check against**, pick Steam Family and the subscriptions you have, and enter your
    two-letter country code.
-3. Click **Scan wishlist**. Scanning changes nothing.
-4. Check the list and untick (Deck: switch off) any game you want to keep. **Unselect all**
-   and **Select all** change the whole list at once.
+3. Click **Scan wishlist**.
+4. Untick (Deck: switch off) any game you want to keep. **Unselect all** and **Select all**
+   change the whole list at once.
 5. Click **Remove selected**, then click again to confirm.
 
 **Undo last removal** adds the games from your latest removal back and lists them again,
-unticked. Steam treats them as
-newly added, so their original date and rank are lost. Each version remembers its own
-removals.
+unticked. Steam treats them as newly added, so their original date and position are lost.
+Each version remembers its own removals. Refresh the wishlist page to see changes.
 
 The tool always works on the signed-in account's wishlist.
 
 ## What counts as a match
-
-Each listed game shows why it matched.
 
 **Steam Family:** another member owns it, Steam does not mark it as excluded from sharing,
 and you don't own it yourself.
@@ -101,44 +117,62 @@ different games can share a name (an original and its remake), so check the list
 | PS Plus Game Catalog | PS Plus Extra and Premium games (PS4, PS5) |
 | PS Plus Classics | Premium classics |
 
-Subscription catalogs differ by country and change often: a removed game may leave the
-catalog later. Monthly PS Plus games are not checked. If you want your own copy of a game,
-keep it.
+Catalogs differ by country and change often: a game may leave a catalog later. Monthly PS
+Plus games are not checked. If you want your own copy of a game, keep it.
 
 ## Privacy
 
-The full policy is in [PRIVACY.md](PRIVACY.md).
-
 Your Steam web access token is read from a store page and used only for requests to
-`api.steampowered.com`. It is not saved or logged. The only things stored are your
-**Check against** choices and the list of games from your latest removal. Subscription
-catalogs are read from `gamepass.com`, `microsoft.com` and `playstation.com` without your
-Steam details.
+`api.steampowered.com`. It is not saved or logged. Only your **Check against** choices and
+the games from your latest removal are stored, on your device. Subscription catalogs are
+read from Microsoft and PlayStation sites without your Steam details. There are no
+analytics or ads. Full policy: [PRIVACY.md](PRIVACY.md).
 
-- Millennium: the plugin's backend makes the API requests, limited to the read-only ones it needs.
-- Decky: the backend runs the token and wishlist requests inside an open store page,
+- **Millennium:** the plugin's backend makes the requests, limited to the read-only
+  addresses it needs.
+- **Decky:** the backend runs the token and wishlist requests inside an open store page,
   through Steam's local debugger.
 
-## Limitations
+## Build from source
 
-The Steam endpoints and subscription catalogs used here are undocumented and can change
-without notice. To check that the catalogs still respond:
+Needs Node.js 24 or newer and Python 3. In Windows PowerShell, use `npm.cmd` if `npm` is
+blocked.
 
 ```powershell
-node scripts/check-catalogs.mjs US
+npm install
 ```
 
-## Development
+```powershell
+npm install --prefix millennium
+```
+
+| To get | Run | Result |
+|---|---|---|
+| Browser extension | `npm run build:browser` | Load `dist/browser` as an unpacked extension |
+| Millennium plugin | `npm run build:millennium` | Compiled and installed into Millennium |
+| Decky plugin | `npm run build:decky` | Compiled into `decky/dist` |
+
+### Development
 
 ```powershell
 npm test
+```
+
+Type checks need Millennium's type files, generated once:
+
+```powershell
+cd millennium; npx starlight lsp; cd ..
 ```
 
 ```powershell
 npm run typecheck
 ```
 
-(`typecheck` needs one Millennium build first, which generates its type files.)
+To check that the public catalogs still respond:
+
+```powershell
+node scripts/check-catalogs.mjs US
+```
 
 | Folder | Contents |
 |---|---|
@@ -147,23 +181,24 @@ npm run typecheck
 | `millennium/` | Millennium plugin: Lua backend and store page script |
 | `decky/` | Decky plugin: Python backend and Quick Access panel |
 
-## Releasing
+### Releasing
 
 1. Set the new version in `package.json`, `browser/manifest.source.json`,
    `decky/package.json` and `millennium/millennium.toml`, and update `CHANGELOG.md`.
-2. Run `npm run release`. The release files and checksums appear in `dist/release`.
-3. Publish both zips, the `.star` file and `SHA256SUMS.txt` on comaapps.dev (downloads from this private
-   repository aren't public).
-4. If `PRIVACY.md` changed, upload the new `dist/release/privacy.html` too, and enter its
-   public address in the store forms.
+2. Add `docs/release-notes-<version>.md`.
+3. Run `npm run release`. The files and checksums appear in `dist/release`.
+4. Tag the commit and create a GitHub release with the two zips, the `.star` file and
+   `SHA256SUMS.txt`.
+5. If `PRIVACY.md` changed, publish the new `dist/release/privacy.html` on the website.
 
 Store form text is in [docs/store-listing.md](docs/store-listing.md).
 
-## License
+## About
 
-[BSD-3-Clause](LICENSE). See also [third-party notices](THIRD_PARTY_NOTICES.md).
+This project was written with AI assistance.
 
-## Ideas
+Questions and problems: open an
+[issue](https://github.com/cosmintoncean/SteamWishlistCleaner/issues).
 
-- Also match games already played or owned on console. This needs a list of those games (manual
-  or imported) and a way to map their names to Steam app IDs.
+Licensed under [BSD-3-Clause](LICENSE). See also [third-party notices](THIRD_PARTY_NOTICES.md)
+and the [changelog](CHANGELOG.md).
