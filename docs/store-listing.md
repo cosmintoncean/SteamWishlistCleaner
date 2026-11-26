@@ -45,5 +45,9 @@ None. All code is in the package.
 ## Data use
 
 Authentication information (the Steam access token) is used only to perform the user's
-request and is sent only to Steam. See PRIVACY.md. Publish that file at a public address
-and enter the address in the store form.
+request and is sent only to Steam.
+
+## Privacy policy address
+
+Upload `dist/release/privacy.html` (made by `npm run release`) to a public address, such as
+a page on comaapps.dev, and enter that address in the store form.

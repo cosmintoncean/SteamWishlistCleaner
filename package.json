@@ -7,7 +7,7 @@
     "build:decky": "cd decky && rollup -c",
     "build:millennium": "cd millennium && npm run build",
     "build": "npm run build:browser && npm run build:decky && npm run build:millennium",
-    "release": "npm test && npm run build:decky && npm run typecheck && python scripts/package-release.py",
+    "release": "npm test && npm run build:decky && npm run typecheck && python scripts/package-release.py && python scripts/make-privacy-page.py",
     "typecheck": "tsc -p tsconfig.json && tsc -p decky/tsconfig.json --noEmit && tsc -p millennium/tsconfig.json",
     "test": "npm run build:browser && node --test tests/*.test.mjs && python tests/test_decky.py"
   },

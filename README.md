@@ -18,7 +18,8 @@ It comes in three versions:
 
 ## Download
 
-Get the zips from this repository's **Releases** page. For the browser, unzip
+This repository is private. Release zips are shared by
+[ComaApps](https://comaapps.dev/). For the browser, unzip
 `wishlist-cleaner-browser-<version>.zip` into a folder you'll keep, then load that folder as
 described under [Browser](#browser). For Steam Deck, use
 `wishlist-cleaner-decky-<version>.zip`. The Millennium plugin is built from source.
@@ -147,7 +148,10 @@ npm run typecheck
 1. Set the new version in `package.json`, `browser/manifest.source.json`,
    `decky/package.json` and `millennium/millennium.toml`, and update `CHANGELOG.md`.
 2. Run `npm run release`. The zips and checksums appear in `dist/release`.
-3. Create a GitHub release and attach those files.
+3. Publish the two zips and `SHA256SUMS.txt` on comaapps.dev (downloads from this private
+   repository aren't public).
+4. If `PRIVACY.md` changed, upload the new `dist/release/privacy.html` too, and enter its
+   public address in the store forms.
 
 Store form text is in [docs/store-listing.md](docs/store-listing.md).
 

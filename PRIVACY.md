@@ -37,4 +37,4 @@ sites unless you open a link.
 
 ## Contact
 
-Open an issue on the project's repository.
+Questions about this policy or your data: cosmintoncean@gmail.com
