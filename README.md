@@ -13,7 +13,7 @@ It comes in three versions:
 | Version | Where it works | Where the button is |
 |---|---|---|
 | Browser extension | Edge (tested); Chrome and Brave expected to work | Wishlist page, bottom right |
-| Millennium plugin (experimental, untested) | Steam desktop client | Wishlist page in the Store tab, bottom right |
+| Millennium plugin (tested) | Steam desktop client | Wishlist page in the Store tab, bottom right |
 | Decky Loader plugin (experimental, untested) | Steam Deck, Gaming Mode | Quick Access menu, Decky tab |
 
 ## Download
@@ -22,7 +22,9 @@ This repository is private. Release zips are shared by
 [ComaApps](https://comaapps.dev/). For the browser, unzip
 `wishlist-cleaner-browser-<version>.zip` into a folder you'll keep, then load that folder as
 described under [Browser](#browser). For Steam Deck, use
-`wishlist-cleaner-decky-<version>.zip`. The Millennium plugin is built from source.
+`wishlist-cleaner-decky-<version>.zip`. The release also includes the Millennium
+package, `wishlist-cleaner-millennium-<version>.star`; building it from source is described
+under [Millennium](#millennium).
 
 ## Build
 
@@ -69,10 +71,12 @@ npm run build:decky
 2. Under **Check against**, pick Steam Family and the subscriptions you have, and enter your
    two-letter country code.
 3. Click **Scan wishlist**. Scanning changes nothing.
-4. Check the list and untick (Deck: switch off) any game you want to keep.
+4. Check the list and untick (Deck: switch off) any game you want to keep. **Unselect all**
+   and **Select all** change the whole list at once.
 5. Click **Remove selected**, then click again to confirm.
 
-**Undo last removal** adds the games from your latest removal back. Steam treats them as
+**Undo last removal** adds the games from your latest removal back and lists them again,
+unticked. Steam treats them as
 newly added, so their original date and rank are lost. Each version remembers its own
 removals.
 
@@ -147,8 +151,8 @@ npm run typecheck
 
 1. Set the new version in `package.json`, `browser/manifest.source.json`,
    `decky/package.json` and `millennium/millennium.toml`, and update `CHANGELOG.md`.
-2. Run `npm run release`. The zips and checksums appear in `dist/release`.
-3. Publish the two zips and `SHA256SUMS.txt` on comaapps.dev (downloads from this private
+2. Run `npm run release`. The release files and checksums appear in `dist/release`.
+3. Publish both zips, the `.star` file and `SHA256SUMS.txt` on comaapps.dev (downloads from this private
    repository aren't public).
 4. If `PRIVACY.md` changed, upload the new `dist/release/privacy.html` too, and enter its
    public address in the store forms.

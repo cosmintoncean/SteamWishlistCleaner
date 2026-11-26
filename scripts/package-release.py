@@ -1,8 +1,14 @@
-"""Builds the release zips in dist/release from already built files."""
+"""Builds the release files in dist/release.
+
+Expects the browser and Decky versions to be built already; compiles Millennium itself.
+"""
 
 import hashlib
 import json
 import re
+import shutil
+import subprocess
+import tempfile
 from pathlib import Path
 from zipfile import ZIP_DEFLATED, ZipFile
 
@@ -50,11 +56,26 @@ release = root / "dist" / "release"
 release.mkdir(parents=True, exist_ok=True)
 for old in release.iterdir():
     old.unlink()
-sums = []
 for name, files in packages.items():
     with ZipFile(release / name, "w", ZIP_DEFLATED) as archive:
         for source, target in files:
             archive.write(source, target)
+
+# Millennium: compile into a temporary folder, so the local Steam install isn't touched.
+millennium = root / "millennium"
+compiler = millennium / "node_modules" / "@steambrew" / "starlight" / "bin" / "starlight.js"
+millennium_name = f"wishlist-cleaner-millennium-{version}.star"
+with tempfile.TemporaryDirectory() as folder:
+    subprocess.run(
+        [shutil.which("node"), str(compiler), "--release", "--of", folder, "pack"],
+        cwd=millennium,
+        check=True,
+    )
+    (built,) = Path(folder).glob("*.star")
+    shutil.copyfile(built, release / millennium_name)
+
+sums = []
+for name in [*packages, millennium_name]:
     sums.append(f"{hashlib.sha256((release / name).read_bytes()).hexdigest()}  {name}")
     print(release / name)
 (release / "SHA256SUMS.txt").write_text("\n".join(sums) + "\n", encoding="utf-8", newline="\n")

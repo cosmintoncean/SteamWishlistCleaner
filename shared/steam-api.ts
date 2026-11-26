@@ -1,5 +1,5 @@
 // The wishlist scan. Steam's endpoints used here are undocumented and may change.
-import { catalogTitles, chunk, type PassId } from "./catalogs";
+import { catalogTitles, chunk, type PassId, type Progress } from "./catalogs";
 import { labelOf, type ScanOptions, type SourceId } from "./sources";
 import { normalizeTitle } from "./titles";
 
@@ -146,6 +146,7 @@ export async function scan(
   token: string,
   fetchFn: FetchLike,
   { sources, country }: ScanOptions,
+  onProgress?: Progress,
 ): Promise<ScanResult> {
   if (sources.length === 0) throw new Error("Choose at least one thing to check against.");
   const steamid = steamIdFromToken(token);
@@ -162,7 +163,7 @@ export async function scan(
     names ??= wishlistNames(wishlist, country, fetchFn);
     const [games, titles] = await Promise.all([
       names,
-      catalogTitles(source as PassId, country, fetchFn),
+      catalogTitles(source as PassId, country, fetchFn, onProgress),
     ]);
     return findCatalogGames(games, titles);
   };
@@ -189,6 +190,18 @@ export async function scan(
     matches: [...matches.values()].sort((a, b) => a.name.localeCompare(b.name)),
     warnings,
   };
+}
+
+/**
+ * The match list with restored games put back, in name order. Lists saved by
+ * earlier versions may lack the reasons.
+ */
+export function withRestored(matches: Match[], restored: (Game & Partial<Match>)[]): Match[] {
+  const listed = new Set(matches.map((game) => game.appid));
+  const added = restored
+    .filter((game) => !listed.has(game.appid))
+    .map((game) => ({ ...game, reasons: game.reasons ?? [] }));
+  return [...matches, ...added].sort((a, b) => a.name.localeCompare(b.name));
 }
 
 export const describeScan = ({ matches, wishlistCount, warnings }: ScanResult) =>

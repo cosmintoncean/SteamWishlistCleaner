@@ -15,7 +15,13 @@ import { FaBroom } from "react-icons/fa";
 
 import { changeMany, type WishlistAction } from "../../shared/change-many";
 import { DEVELOPER_URL, KOFI_URL } from "../../shared/credits";
-import { describeScan, scan, type Game, type Match } from "../../shared/steam-api";
+import {
+  describeScan,
+  scan,
+  withRestored,
+  type Game,
+  type Match,
+} from "../../shared/steam-api";
 import { labelOf, SOURCES, toOptions, type ScanOptions } from "../../shared/sources";
 
 const getToken = callable<[], { ok: boolean; token?: string; error?: string }>("get_token");
@@ -78,7 +84,12 @@ const scanWishlist = () =>
     update({ message: "Scanning…", matches: [], kept: [] });
     const session = await getToken();
     if (!session.ok || !session.token) throw new Error(session.error ?? "The scan failed.");
-    const result = await scan(session.token, (url) => fetchNoCors(url), state.options);
+    const result = await scan(
+      session.token,
+      (url) => fetchNoCors(url),
+      state.options,
+      (progress) => update({ message: `Scanning… ${progress}` }),
+    );
     update({ matches: result.matches, message: describeScan(result) });
   });
 
@@ -110,7 +121,12 @@ const undoRemoval = () =>
     );
     const ids = new Set(restored.map((game) => game.appid));
     saveRemoved(games.filter((game) => !ids.has(game.appid)));
-    update({ message: `Restored ${restored.length} of ${games.length} game(s).` });
+    // Restored games come back switched off, so they aren't removed again by accident.
+    update({
+      matches: withRestored(state.matches, restored),
+      kept: [...state.kept, ...restored.map((game) => game.appid)],
+      message: `Restored ${restored.length} of ${games.length} game(s).`,
+    });
   });
 
 const openWeb = (url: string) => {
@@ -204,6 +220,20 @@ function Content() {
       </PanelSection>
       {matches.length > 0 && (
         <PanelSection title="You can already play">
+          <PanelSectionRow>
+            <ButtonItem
+              layout="below"
+              disabled={busy}
+              onClick={() =>
+                update({
+                  armed: false,
+                  kept: kept.length === 0 ? matches.map((game) => game.appid) : [],
+                })
+              }
+            >
+              {kept.length === 0 ? "Unselect all" : "Select all"}
+            </ButtonItem>
+          </PanelSectionRow>
           {matches.map((game) => (
             <PanelSectionRow key={game.appid}>
               <ToggleField

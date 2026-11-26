@@ -15,6 +15,8 @@ export const PANEL_CSS = `
 #sfwc-panel .sfwc-sources label { display: flex; align-items: center; gap: 6px; }
 #sfwc-panel input[type="text"] { width: 3em; text-transform: uppercase; }
 #sfwc-panel small { display: block; color: #8f98a0; }
+#sfwc-panel button.sfwc-select-all { margin: 0 0 6px; padding: 4px 8px; font-size: 11px;
+  background: #3d4450; color: #c7d5e0; }
 #sfwc-panel .sfwc-list { max-height: 30vh; overflow-y: auto; margin: 0 0 8px; padding: 0;
   list-style: none; }
 #sfwc-panel .sfwc-list li { display: flex; align-items: center; gap: 8px; padding: 3px 0; }

@@ -5,7 +5,7 @@ import { build } from "esbuild";
 // Bundle the shared TypeScript so it can be imported here.
 const { outputFiles } = await build({
   stdin: {
-    contents: ["steam-api", "change-many", "sources", "titles"]
+    contents: ["steam-api", "change-many", "sources", "titles", "backend-reply"]
       .map((name) => `export * from "./${name}";`)
       .join(""),
     resolveDir: "shared",
@@ -14,8 +14,15 @@ const { outputFiles } = await build({
   format: "esm",
   write: false,
 });
-const { scan, steamIdFromToken, findSharedWishlistGames, changeMany, toOptions, normalizeTitle } =
-  await import(`data:text/javascript,${encodeURIComponent(outputFiles[0].text)}`);
+const {
+  scan,
+  steamIdFromToken,
+  findSharedWishlistGames,
+  changeMany,
+  toOptions,
+  normalizeTitle,
+  backendResponse,
+} = await import(`data:text/javascript,${encodeURIComponent(outputFiles[0].text)}`);
 
 const ME = "76561190000000001";
 const SIBLING = "76561190000000002";
@@ -161,4 +168,19 @@ test("changes stop after three failures in a row", async () => {
   );
   assert.deepEqual(done.map((game) => game.appid), [1]);
   assert.deepEqual(tried, [1, 2, 3, 4]);
+});
+
+test("backend replies are read whether or not they arrive decoded", async () => {
+  const data = { response: { items: [] } };
+  const text = JSON.stringify(data);
+  for (const reply of [
+    JSON.stringify({ status: 200, body: text }),
+    { status: 200, body: text },
+    { status: 200, body: data },
+  ]) {
+    const response = backendResponse(reply);
+    assert.equal(response.ok, true);
+    assert.deepEqual(await response.json(), data);
+  }
+  assert.equal(backendResponse({ status: 403, body: "" }).ok, false);
 });

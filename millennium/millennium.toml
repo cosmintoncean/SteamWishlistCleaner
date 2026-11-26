@@ -1,7 +1,7 @@
 [plugin]
 id = "comaapps.wishlist-cleaner"
 name = "Wishlist Cleaner"
-version = "0.2.0"
+version = "1.0.0"
 author = "ComaApps"
 
 [backend]

@@ -1,6 +1,6 @@
 // Public subscription catalogs. None of these is a documented API.
 import type { FetchLike } from "./steam-api";
-import type { SourceId } from "./sources";
+import { labelOf, type SourceId } from "./sources";
 
 export type PassId = Exclude<SourceId, "family">;
 
@@ -12,11 +12,23 @@ const PS_LISTS = { psPlus: "plus-games-list", psClassics: "plus-classics-list" }
 
 const PRODUCTS_PER_REQUEST = 20;
 const REQUESTS_AT_ONCE = 4;
+const TIMEOUT_MS = 120_000; // long enough for requests that wait in a queue
+
+export type Progress = (message: string) => void;
 
 async function getJson(url: string, fetchFn: FetchLike) {
-  const res = await fetchFn(url);
-  if (!res.ok) throw new Error(`HTTP ${res.status}`);
-  return res.json();
+  let timer: ReturnType<typeof setTimeout> | undefined;
+  // A request that never answers must not leave the scan waiting forever.
+  const timeout = new Promise<never>((_, reject) => {
+    timer = setTimeout(() => reject(new Error("No answer")), TIMEOUT_MS);
+  });
+  try {
+    const res = await Promise.race([fetchFn(url), timeout]);
+    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+    return await res.json();
+  } finally {
+    clearTimeout(timer);
+  }
 }
 
 export function chunk<T>(items: T[], size: number): T[][] {
@@ -25,7 +37,12 @@ export function chunk<T>(items: T[], size: number): T[][] {
   return chunks;
 }
 
-async function gamePassTitles(list: string, country: string, fetchFn: FetchLike) {
+async function gamePassTitles(
+  list: string,
+  country: string,
+  fetchFn: FetchLike,
+  onProgress: (done: number, total: number) => void,
+) {
   const entries: { id?: string }[] = await getJson(
     `https://catalog.gamepass.com/sigls/v2?id=${list}&language=en-us&market=${country}`,
     fetchFn,
@@ -33,12 +50,14 @@ async function gamePassTitles(list: string, country: string, fetchFn: FetchLike)
   // The first entry describes the list itself and has no "id".
   const ids = entries.flatMap((entry) => (entry.id ? [entry.id] : []));
   const titles: string[] = [];
+  let done = 0;
   for (const group of chunk(chunk(ids, PRODUCTS_PER_REQUEST), REQUESTS_AT_ONCE)) {
     const replies = await Promise.all(
       group.map((batch) =>
         getJson(
           "https://displaycatalog.mp.microsoft.com/v7.0/products?" +
-            `bigIds=${batch.join(",")}&market=${country}&languages=en-us&MS-CV=DGU1mcuYo0WMMp%2BF.1`,
+            `bigIds=${batch.join(",")}&market=${country}&languages=en-us&MS-CV=DGU1mcuYo0WMMp%2BF.1` +
+            "&fieldsTemplate=browse", // about a quarter of the full reply
           fetchFn,
         ),
       ),
@@ -49,6 +68,8 @@ async function gamePassTitles(list: string, country: string, fetchFn: FetchLike)
         if (title) titles.push(title);
       }
     }
+    done += group.flat().length;
+    onProgress(done, ids.length);
   }
   return titles;
 }
@@ -74,10 +95,13 @@ export async function catalogTitles(
   source: PassId,
   country: string,
   fetchFn: FetchLike,
+  onProgress: Progress = () => {},
 ): Promise<string[]> {
   const load =
     source === "pcGamePass" || source === "consoleGamePass"
-      ? gamePassTitles(GAME_PASS_LISTS[source], country, fetchFn)
+      ? gamePassTitles(GAME_PASS_LISTS[source], country, fetchFn, (done, total) =>
+          onProgress(`${labelOf(source)}: ${done} of ${total}`),
+        )
       : playStationTitles(PS_LISTS[source], country, fetchFn);
   const titles = await load.catch((error: Error) => {
     throw new Error(`${error.message} for country ${country}.`);

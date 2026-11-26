@@ -87,13 +87,23 @@ test("scan, confirm, remove and undo", async () => {
 
   await click("Scan wishlist");
   assert.match(status(), /2 of 3/);
+  await click("Unselect all");
+  assert.equal(button("Remove selected (0)").disabled, true);
+  await click("Select all");
   await click("Remove selected");
   assert.equal(posts.length, 0, "the first click only asks for confirmation");
+  await click("Unselect all");
+  await click("Select all");
+  assert.ok(button("Remove selected (2)"));
+  await click("Remove selected");
+  assert.equal(posts.length, 0);
   await click("Click again to remove 2");
   assert.match(status(), /Removed 1 of 2/);
   assert.equal(stored.lastRemoved.map((game) => game.appid).join(), "1");
   assert.ok(button("Remove selected (1)"));
   await click("Undo last removal");
   assert.match(status(), /Restored 1 of 1/);
+  const boxes = body.all().filter((node) => node.game);
+  assert.equal(boxes.map((box) => `${box.game.name}:${box.checked}`).join(), "A:false,B:true");
   assert.equal(posts.at(-1), "/api/addtowishlist sessionid=abc&appid=1");
 });

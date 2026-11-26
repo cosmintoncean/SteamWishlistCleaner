@@ -1,13 +1,13 @@
 // The floating panel on the wishlist page (browser extension and Millennium).
 // Nothing is removed until the Remove button is clicked twice.
 import { changeMany, type WishlistAction } from "./change-many";
-import { describeScan, type Game, type Match, type ScanResult } from "./steam-api";
+import { describeScan, withRestored, type Game, type Match, type ScanResult } from "./steam-api";
 import { labelOf, SOURCES, toOptions, type ScanOptions } from "./sources";
 import { PANEL_CSS } from "./panel-style";
 import { DEVELOPER_URL, KOFI_URL } from "./credits";
 
 export interface PanelHost {
-  scan(options: ScanOptions): Promise<ScanResult>;
+  scan(options: ScanOptions, onProgress: (message: string) => void): Promise<ScanResult>;
   loadOptions(): Promise<ScanOptions | undefined>;
   saveOptions(options: ScanOptions): Promise<void>;
   change(action: WishlistAction, appid: number): Promise<boolean>;
@@ -15,7 +15,7 @@ export interface PanelHost {
   saveRemoved(games: Game[]): Promise<void>;
 }
 
-type Row = HTMLInputElement & { game: Game };
+type Row = HTMLInputElement & { game: Match };
 
 export function mountPanel(host: PanelHost): void {
   if (document.getElementById("sfwc-panel")) return;
@@ -32,6 +32,7 @@ export function mountPanel(host: PanelHost): void {
 
   const status = el("p", { className: "sfwc-status" });
   const list = el("ul", { className: "sfwc-list" });
+  const selectAllButton = el("button", { className: "sfwc-select-all", hidden: true });
   const scanButton = el("button", { textContent: "Scan wishlist" });
   const removeButton = el("button", { hidden: true });
   const undoButton = el("button", { textContent: "Undo last removal", hidden: true });
@@ -71,6 +72,7 @@ export function mountPanel(host: PanelHost): void {
     { className: "sfwc-body", hidden: true },
     settings,
     status,
+    selectAllButton,
     list,
     el("div", { className: "sfwc-actions" }, scanButton, removeButton, undoButton),
     credits,
@@ -92,11 +94,15 @@ export function mountPanel(host: PanelHost): void {
       : `Remove selected (${count})`;
     removeButton.hidden = rows.length === 0;
     removeButton.disabled = count === 0;
+    selectAllButton.hidden = rows.length === 0;
+    selectAllButton.textContent = count === rows.length ? "Unselect all" : "Select all";
   }
 
-  function showMatches(matches: Match[]) {
+  /** Shows the games, ticked unless their ID is in `unticked`. */
+  function showMatches(matches: Match[], unticked = new Set<number>()) {
     rows = matches.map((game) => {
-      const box = Object.assign(el("input", { type: "checkbox", checked: true }), { game });
+      const checked = !unticked.has(game.appid);
+      const box = Object.assign(el("input", { type: "checkbox", checked }), { game });
       const link = el("a", {
         href: `/app/${game.appid}/`,
         target: "_blank",
@@ -111,7 +117,7 @@ export function mountPanel(host: PanelHost): void {
 
   /** Runs a task with the buttons locked, and reports any error in the panel. */
   async function run(task: () => Promise<void>) {
-    const buttons = [scanButton, removeButton, undoButton];
+    const buttons = [scanButton, selectAllButton, removeButton, undoButton];
     buttons.forEach((button) => (button.disabled = true));
     settings.disabled = true;
     try {
@@ -131,6 +137,13 @@ export function mountPanel(host: PanelHost): void {
     updateRemoveButton();
   });
 
+  selectAllButton.addEventListener("click", () => {
+    const select = selected().length < rows.length;
+    rows.forEach((row) => (row.box.checked = select));
+    armed = false; // the selection changed, so ask for confirmation again
+    updateRemoveButton();
+  });
+
   settings.addEventListener("change", () => {
     const options = readOptions();
     showOptions(options);
@@ -143,7 +156,7 @@ export function mountPanel(host: PanelHost): void {
     run(async () => {
       say("Scanning…");
       showMatches([]);
-      const result = await host.scan(readOptions());
+      const result = await host.scan(readOptions(), (progress) => say(`Scanning… ${progress}`));
       showMatches(result.matches);
       say(describeScan(result));
     }),
@@ -189,6 +202,11 @@ export function mountPanel(host: PanelHost): void {
       const remaining = games.filter((game) => !ids.has(game.appid));
       await host.saveRemoved(remaining);
       undoButton.hidden = remaining.length === 0;
+      // Restored games come back unticked, so they aren't removed again by accident.
+      const unticked = new Set(rows.filter((row) => !row.box.checked).map((row) => row.box.game.appid));
+      restored.forEach((game) => unticked.add(game.appid));
+      const listed = rows.map((row) => row.box.game);
+      showMatches(withRestored(listed, restored), unticked);
       say(`Restored ${restored.length} of ${games.length} game(s).`);
     }),
   );
