@@ -1,5 +1,7 @@
 # Microsoft Edge Add-ons submission
 
+Submitted 26 November 2026. The Chrome Web Store values are [at the end](#chrome-web-store).
+
 Values for each page in Partner Center. Official steps:
 [Publish a Microsoft Edge extension](https://learn.microsoft.com/en-us/microsoft-edge/extensions/publish/publish-extension).
 
@@ -106,3 +108,39 @@ To test:
 
 All code is in the package; no remote code is loaded. The Steam access token is read from the store page and sent only to api.steampowered.com.
 ```
+
+# Chrome Web Store
+
+[Developer dashboard](https://chrome.google.com/webstore/devconsole). Registration needs a
+one-time fee. Use the same package zip.
+
+## Store listing
+
+| Field | Value |
+|---|---|
+| Description | The description above |
+| Category | Shopping |
+| Language | English |
+| Store icon | `browser/icons/icon-128.png` |
+| Screenshots | The three images in `docs/store-screenshots` |
+| Small promo tile | `docs/store-tile-440x280.png` |
+| Homepage URL | `https://comaapps.dev/` |
+| Support URL | `https://github.com/cosmintoncean/SteamWishlistCleaner/issues` |
+
+## Privacy practices
+
+Use the single purpose, permission justifications and privacy policy address above. For the
+host permission box, use the host justifications together. Remote code: **No**.
+
+Data usage: tick **Personally identifiable information** and **Authentication information**,
+as for Edge, then read and tick the three certifications. The policy page must show its
+**Limited Use** section before you submit.
+
+## Distribution
+
+Public, all regions, free.
+
+## Test instructions
+
+Use the certification notes above.
+
