@@ -49,5 +49,8 @@ request and is sent only to Steam.
 
 ## Privacy policy address
 
-Upload `dist/release/privacy.html` (made by `npm run release`) to a public address, such as
-a page on comaapps.dev, and enter that address in the store form.
+Enter `https://comaapps.dev/wishlist-cleaner/privacy.html` in the store form.
+
+The page is `dist/release/privacy.html` (made by `npm run release`), copied to
+`wishlist-cleaner/privacy.html` in the website's repository. It goes live when the website is
+pushed. Check that the address loads before submitting.
