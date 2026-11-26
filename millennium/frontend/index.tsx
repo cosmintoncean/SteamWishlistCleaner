@@ -4,7 +4,7 @@ function SettingsContent() {
 	return (
 		<Field
 			label="How to use"
-			description="Open your wishlist in the Store tab, then click Steam Wishlist Cleaner at the bottom right."
+			description="Open your wishlist in the Store tab, then click Wishlist Cleaner at the bottom right."
 		/>
 	);
 }

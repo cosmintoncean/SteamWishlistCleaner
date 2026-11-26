@@ -64,7 +64,7 @@ Check your wishlist against:
 
 How it works:
 1. Sign in to the Steam store and open your wishlist.
-2. Click Steam Wishlist Cleaner at the bottom right.
+2. Click Wishlist Cleaner at the bottom right.
 3. Choose what to check against and enter your two-letter country code.
 4. Scan. Scanning changes nothing, and each result shows why it matched.
 5. Untick any game you want to keep, then click Remove twice to confirm.
@@ -99,7 +99,7 @@ The extension only runs on https://store.steampowered.com/wishlist pages and nee
 
 To test:
 1. Sign in to Steam and open your wishlist.
-2. Click "Steam Wishlist Cleaner" at the bottom right.
+2. Click "Wishlist Cleaner" at the bottom right.
 3. Untick "Steam Family" unless the account belongs to a Steam Family, tick "PC Game Pass", and keep country US.
 4. Click "Scan wishlist". To get a match, first wishlist a game on Steam that is also in PC Game Pass and that the account does not own.
 5. Click "Remove selected", click again to confirm, then click "Undo last removal".
