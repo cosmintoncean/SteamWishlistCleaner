@@ -1,11 +1,16 @@
 First release. Steam Wishlist Cleaner removes games from your Steam wishlist that you can
 already play through your Steam Family, Game Pass or PS Plus.
 
+## Install the browser extension
+
+- **[Microsoft Edge Add-ons](https://microsoftedge.microsoft.com/addons/detail/steam-wishlist-cleaner/feljepenkddfhfmopgkfpdfbcbbkhlen)**
+- **[Chrome Web Store](https://chromewebstore.google.com/detail/steam-wishlist-cleaner/fppnhlbhhceonmlikhbenkeecnkaogpl)**
+
 ## Downloads
 
 | File | For | Status |
 |---|---|---|
-| `steam-wishlist-cleaner-browser-1.0.0.zip` | Microsoft Edge; Chrome and Brave should work | Tested in Edge |
+| `steam-wishlist-cleaner-browser-1.0.0.zip` | Manual install in Edge, Chrome or other Chromium browsers | Tested in Edge and Chrome |
 | `steam-wishlist-cleaner-millennium-1.0.0.star` | Steam desktop client with Millennium 3.4+ | Tested when built from source |
 | `steam-wishlist-cleaner-decky-1.0.0.zip` | Steam Deck with Decky Loader | **Experimental: never run on a Deck** |
 | `SHA256SUMS.txt` | Checking your downloads | |
@@ -17,10 +22,20 @@ project.
 
 ### Browser
 
+Use the store links above, then open your Steam wishlist and click **Wishlist Cleaner** at
+the bottom right. The store keeps the extension up to date.
+
+To install from the zip instead (remove the store copy first):
+
 1. Extract the browser zip into a folder you'll keep.
 2. Open `edge://extensions` (or `chrome://extensions`) and turn on **Developer mode**.
 3. Click **Load unpacked** and choose that folder.
-4. Open your Steam wishlist and click **Wishlist Cleaner** at the bottom right.
+
+### Inside the Steam client (Extendium)
+
+You can add the extension from the Chrome Web Store with the third-party Extendium plugin
+for Millennium. This is untested: see
+[the steps](https://github.com/cosmintoncean/SteamWishlistCleaner#inside-the-steam-client-extendium).
 
 ### Millennium
 
