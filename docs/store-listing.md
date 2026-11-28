@@ -1,6 +1,7 @@
 # Microsoft Edge Add-ons submission
 
-Submitted 26 November 2026. The Chrome Web Store values are [at the end](#chrome-web-store).
+Published: [Edge Add-ons listing](https://microsoftedge.microsoft.com/addons/detail/steam-wishlist-cleaner/feljepenkddfhfmopgkfpdfbcbbkhlen). The Chrome Web Store values are
+[at the end](#chrome-web-store).
 
 Values for each page in Partner Center. Official steps:
 [Publish a Microsoft Edge extension](https://learn.microsoft.com/en-us/microsoft-edge/extensions/publish/publish-extension).
@@ -110,6 +111,8 @@ All code is in the package; no remote code is loaded. The Steam access token is 
 ```
 
 # Chrome Web Store
+
+Published: [Chrome Web Store listing](https://chromewebstore.google.com/detail/steam-wishlist-cleaner/fppnhlbhhceonmlikhbenkeecnkaogpl).
 
 [Developer dashboard](https://chrome.google.com/webstore/devconsole). Registration needs a
 one-time fee. Use the same package zip.

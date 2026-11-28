@@ -10,6 +10,11 @@
   <a href="https://ko-fi.com/comaapps">Support on Ko-fi</a>
 </p>
 
+<p align="center">
+  <b><a href="https://microsoftedge.microsoft.com/addons/detail/steam-wishlist-cleaner/feljepenkddfhfmopgkfpdfbcbbkhlen">Get it for Microsoft Edge</a></b> ·
+  <b><a href="https://chromewebstore.google.com/detail/steam-wishlist-cleaner/fppnhlbhhceonmlikhbenkeecnkaogpl">Get it for Google Chrome</a></b>
+</p>
+
 ![The Wishlist Cleaner panel listing matched games, each with the reason it matched](docs/store-screenshots/2-review.png)
 
 <p align="center"><sub>The real panel with made-up sample games.</sub></p>
@@ -30,12 +35,12 @@ confirm, and can undo your latest removal.
 
 ## Download and install
 
-Get the files from the
+Install the browser extension from your browser's store. Get the plugins from the
 [latest release](https://github.com/cosmintoncean/SteamWishlistCleaner/releases/latest).
 
-| Version | Works in | Status | File |
+| Version | Works in | Status | Get it from |
 |---|---|---|---|
-| [Browser extension](#browser-extension) | Microsoft Edge; Chrome and Brave should work | Tested in Edge | `steam-wishlist-cleaner-browser-<version>.zip` |
+| [Browser extension](#browser-extension) | Microsoft Edge and Google Chrome | Tested in both | [Edge Add-ons](https://microsoftedge.microsoft.com/addons/detail/steam-wishlist-cleaner/feljepenkddfhfmopgkfpdfbcbbkhlen), [Chrome Web Store](https://chromewebstore.google.com/detail/steam-wishlist-cleaner/fppnhlbhhceonmlikhbenkeecnkaogpl) |
 | [Millennium plugin](#millennium-plugin) | Steam desktop client | Tested when built from source | `steam-wishlist-cleaner-millennium-<version>.star` |
 | [Decky Loader plugin](#decky-loader-plugin) | Steam Deck, Gaming Mode | **Experimental: never run on a Deck** | `steam-wishlist-cleaner-decky-<version>.zip` |
 
@@ -43,6 +48,38 @@ The plugins are not in the Millennium or Decky stores and have not been reviewed
 project. Install them only if you're comfortable running software from outside those stores.
 
 ### Browser extension
+
+| Browser | Install |
+|---|---|
+| Microsoft Edge | Open [Microsoft Edge Add-ons](https://microsoftedge.microsoft.com/addons/detail/steam-wishlist-cleaner/feljepenkddfhfmopgkfpdfbcbbkhlen) and click **Get** |
+| Google Chrome | Open the [Chrome Web Store](https://chromewebstore.google.com/detail/steam-wishlist-cleaner/fppnhlbhhceonmlikhbenkeecnkaogpl) and click **Add to Chrome** |
+
+Then open your Steam wishlist; refresh the page if it was already open. The store keeps the
+extension up to date.
+
+If you installed it manually before, remove that copy first so you don't run two.
+
+#### Inside the Steam client (Extendium)
+
+[Extendium](https://github.com/BossSloth/Extendium), a third-party Millennium plugin, runs
+browser extensions inside the Steam desktop client. This extension has not been tested with
+it.
+
+1. Install [Millennium](https://steambrew.app), then add Extendium from Millennium's plugin
+   settings (its ID is listed on [steambrew.app/plugins](https://steambrew.app/plugins)).
+   Restart Steam.
+2. In Extendium's **Extensions Manager**, choose **Install extension**. The Chrome Web Store
+   opens.
+3. Go to the [Steam Wishlist Cleaner page](https://chromewebstore.google.com/detail/steam-wishlist-cleaner/fppnhlbhhceonmlikhbenkeecnkaogpl) and install it.
+4. Open your wishlist in the Store tab and click **Wishlist Cleaner**.
+
+If you have the [Millennium plugin](#millennium-plugin) from this project enabled, disable it
+first so only one copy runs. Extendium lets an extension run inside your signed-in Steam
+client, so check its notes before installing.
+
+#### Manual install
+
+For other Chromium browsers, such as Brave (untested), or to run a release file:
 
 1. Download `steam-wishlist-cleaner-browser-<version>.zip` from the latest release.
 2. Extract it into a folder you'll keep. The browser loads the extension from there, so
@@ -56,6 +93,9 @@ project. Install them only if you're comfortable running software from outside t
 the extension's card.
 
 ### Millennium plugin
+
+This is the native alternative to [running the browser extension through
+Extendium](#inside-the-steam-client-extendium).
 
 1. Install [Millennium](https://steambrew.app) 3.4 or newer.
 2. Download `steam-wishlist-cleaner-millennium-<version>.star` from the latest release.
@@ -189,7 +229,8 @@ node scripts/check-catalogs.mjs US
 3. Run `npm run release`. The files and checksums appear in `dist/release`.
 4. Tag the commit and create a GitHub release with the two zips, the `.star` file and
    `SHA256SUMS.txt`.
-5. If `PRIVACY.md` changed, publish the new `dist/release/privacy.html` on the website.
+5. Upload the browser zip as an update in Partner Center and the Chrome developer dashboard.
+6. If `PRIVACY.md` changed, publish the new `dist/release/privacy.html` on the website.
 
 Store form text is in [docs/store-listing.md](docs/store-listing.md).
 
